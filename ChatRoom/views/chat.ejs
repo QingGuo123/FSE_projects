@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+    <link href="/css/bootstrap.css" rel="stylesheet"/>
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="//cdnjscn.b0.upaiyun.com/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/chat.css">
+    <style>
+        body{padding-top: 5px;
+            padding-left:280px;padding-bottom: 10px;background-color:#b0c4de;}
+        .container{width:600px;margin:0 auto;}
+    </style>
+</head>
+<body>
+<div id="container" class="container">
+
+<div class="row" style="margin-top:15px;">
+
+	<!-- chat -->
+	<div class="col-sm-8">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-earphone"></span>
+				&nbsp;Chat Content
+			</div>
+			<div class="panel-body chat-body">
+				<div class="msg-list-body">
+		             <% posts.forEach(function(post, index){ %>
+                    <div class="clearfix msg-wrap"><div class="msg-head">
+                            <span class="msg-name label label-primary pull-left">
+                    <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;  <%= post.name %> </span>
+                            <span class="msg-time label label-default pull-left">
+                    <span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;  <%= post.time %> </span>
+                            </div>
+                        <div class="msg-content"><%= post.content %></div></div>
+		             <%}) %>
+		             <div id="add-chat-content-block"></div>
+                </div>
+            </div>
+
+
+                <form class="form-inline" method="post" action="">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-btn">
+                    <button class="btn btn-default" id="emotion-btn" type="button">
+                        <img src="/img/emotion_smile.png" style="width:24px;height:24px;">
+                    </button>
+                </span>
+                    <input class="form-control" rows="2" id="chat_content" name="chat_content"  placeholder="Input your message"></input>
+                    <span class="input-group-btn">
+                           <button type="submit" class="btn btn-default">Submit</button>
+                    </span>
+                    </div>
+                </form>
+
+        </div>
+
+    </div>
+</div>
+</div>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script>
+		var socket = io();
+		$('form').submit(function(){
+			//set now's time
+			var date = new Date();
+			var timestamp = (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
+			$.ajax({
+				url: "/chat?callback=?",
+				type: "GET",
+				data: {"name": sessionStorage['username'], "content": $('#chat_content').val(), "time": timestamp},
+				dataType: "jsonp",
+			});
+			socket.emit('chat message', sessionStorage['username'], $('#chat_content').val(), timestamp);
+			$('#chat_content').val('');
+			return false;
+		});
+		socket.on('chat message', function(username, msg, timestamp){
+		    msg = QxEmotion.Parse(msg);
+			$('#add-chat-content-block').append(
+                    '<div class="clearfix msg-wrap"><div class="msg-head">' +
+                    '<span class="msg-name label label-primary pull-left">' +
+                    '<span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;' + username + '</span>' +
+                    '<span class="msg-time label label-default pull-left">' +
+                    '<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;' + timestamp + '</span>' +
+                    '</div><div class="msg-content">' + msg + '</div></div>'
+			);
+		});
+
+	</script>
+
+<script src = "/javascripts/jquery-2.1.4.min.js"></script>
+<script src = "/javascripts/bootstrap.js"></script>
+<script src="/javascripts/emotion.js"></script>
+</body>
+</html>

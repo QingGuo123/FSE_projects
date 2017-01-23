@@ -1,0 +1,70 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+html, body{
+	height: 100%;
+}
+.wrap{
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/*margin: 0 auto -60px;*/
+}
+
+.push .footer{
+	height: 60px;
+}
+
+.chat-content-block{
+	border-style: none;
+	border-radius: 5px;
+	background: rgb(244, 244, 244);
+	padding-left: 2%;
+}
+.chat-content-username{
+	/*vertical-align: super;*/
+	margin-top: 10px;
+	margin-bottom: 20px;
+	font-weight: bold;
+	color: rgb(120, 120, 120);
+}
+.chat-content-time{
+	/*vertical-align: baseline;*/
+	/*margin-top: 10px;*/
+	padding-top: 5px;
+	color: rgb(130, 130, 130);
+	text-align: right;
+}
+.chat-content-content{
+	/*margin-top: 10px;*/
+	margin-bottom: 20px;
+	color: rgb(130, 130, 130);
+}
+
+.chat-content-interval{
+	/*line-height:3px;*/
+}
+/*.chat-submit-content-block{
+	color: rgb(188, 226, 247);
+}
+*/
+.chat-submit-button{
+	color: #fff;
+  	background-color: rgb(36, 142, 238);
+  	border-color: #2e6da4;
+  	font-weight: lighter;
+}
+.chat-submit-block{
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;	
+	/*height:55px;*/
+	background: rgb(221, 221, 221);
+}
+
